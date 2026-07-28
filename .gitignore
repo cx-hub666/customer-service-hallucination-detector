@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Runtime files
+*.log
+outputs/*.tmp
+outputs/manifest.json
+outputs/runs/
+/task4_*.json
+
+# Local-only acceptance and submission screenshots
+/docs/screenshots/
+/截图/
+*.png
+
+# Local multi-agent coordination record
+/docs/agent-handoff.md

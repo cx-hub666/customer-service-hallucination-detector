@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>客服回复幻觉检测</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div>
+        <p class="eyebrow">QUALITY OPERATIONS</p>
+        <h1>客服回复幻觉检测</h1>
+      </div>
+      <div class="system-state"><span class="status-dot" aria-hidden="true"></span><span id="systemStatus">离线引擎就绪</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="control-band" aria-labelledby="run-heading">
+      <div class="section-inner controls">
+        <div>
+          <h2 id="run-heading">运行控制</h2>
+          <p class="muted">检测数据集中的 20 条客服回复，并在独立阶段计算评估指标。</p>
+        </div>
+        <div class="control-actions">
+          <label for="modeSelect">检测模式</label>
+          <select id="modeSelect">
+            <option value="offline" selected>Offline</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="llm">LLM</option>
+          </select>
+          <button id="runButton" class="button button--primary" type="button">运行检测</button>
+          <a class="button button--secondary" href="/api/export/json">导出 JSON</a>
+          <a class="button button--secondary" href="/api/export/csv">导出 CSV</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-inner workspace">
+      <section aria-labelledby="metrics-heading">
+        <div class="section-title">
+          <div><p class="eyebrow">EVALUATION</p><h2 id="metrics-heading">核心指标</h2></div>
+          <p id="lastRun" class="muted">读取最近一次运行结果</p>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card"><span>Precision</span><strong id="precision">--</strong><small>误报控制</small></article>
+          <article class="metric-card"><span>Recall</span><strong id="recall">--</strong><small>幻觉检出</small></article>
+          <article class="metric-card"><span>F1 Score</span><strong id="f1">--</strong><small>综合表现</small></article>
+          <article class="metric-card"><span>Accuracy</span><strong id="accuracy">--</strong><small>整体准确</small></article>
+        </div>
+      </section>
+
+      <section class="analysis-grid" aria-label="评估图表">
+        <div class="analysis-panel">
+          <div class="section-title section-title--compact"><div><p class="eyebrow">CONFUSION MATRIX</p><h2>混淆矩阵</h2></div></div>
+          <div class="matrix" aria-label="混淆矩阵">
+            <div class="matrix__corner"></div><div class="matrix__axis">预测：幻觉</div><div class="matrix__axis">预测：正常</div>
+            <div class="matrix__axis matrix__axis--row">实际：幻觉</div><div class="matrix__cell matrix__cell--positive"><span>TP</span><strong id="tp">--</strong></div><div class="matrix__cell"><span>FN</span><strong id="fn">--</strong></div>
+            <div class="matrix__axis matrix__axis--row">实际：正常</div><div class="matrix__cell"><span>FP</span><strong id="fp">--</strong></div><div class="matrix__cell matrix__cell--positive"><span>TN</span><strong id="tn">--</strong></div>
+          </div>
+        </div>
+        <div class="analysis-panel">
+          <div class="section-title section-title--compact"><div><p class="eyebrow">CATEGORY BREAKDOWN</p><h2>分类分布</h2></div></div>
+          <div id="categoryChart" class="bar-chart" aria-label="幻觉分类分布"></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="results-heading">
+        <div class="section-title results-title">
+          <div><p class="eyebrow">REVIEW QUEUE</p><h2 id="results-heading">检测明细</h2></div>
+          <div class="filters" aria-label="结果筛选">
+            <label><span>判定</span><select id="decisionFilter"><option value="all">全部</option><option value="true">幻觉</option><option value="false">正常</option></select></label>
+            <label><span>分类</span><select id="categoryFilter"><option value="all">全部分类</option></select></label>
+            <label class="search-label"><span>搜索</span><input id="searchInput" type="search" placeholder="ID、原因或主张"></label>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>判定</th><th>分类</th><th>严重程度</th><th>置信度</th><th>原因</th><th><span class="sr-only">操作</span></th></tr></thead>
+            <tbody id="resultRows"><tr><td colspan="7" class="empty-state">正在加载结果...</td></tr></tbody>
+          </table>
+        </div>
+        <p id="resultCount" class="table-caption"></p>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="detailDialog">
+    <div class="dialog-head"><div><p class="eyebrow">CASE REVIEW</p><h2 id="dialogTitle">检测详情</h2></div><button id="closeDialog" class="icon-button" type="button" aria-label="关闭">×</button></div>
+    <div id="dialogBody" class="dialog-body"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>

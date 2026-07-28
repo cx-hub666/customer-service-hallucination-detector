@@ -1,0 +1,37 @@
+[
+  {
+    "id": "blind-origin-conflict",
+    "user_question": "这件商品是哪里制造的？",
+    "system_reply": "它来自法国工厂。",
+    "knowledge_base": "商品产地：中国。",
+    "expected": true
+  },
+  {
+    "id": "blind-color-conflict",
+    "user_question": "有哪些配色？",
+    "system_reply": "当前可以买到红色款。",
+    "knowledge_base": "目前仅提供蓝色。",
+    "expected": true
+  },
+  {
+    "id": "blind-duration-equivalent",
+    "user_question": "质保期限多久？",
+    "system_reply": "提供十二个月质保。",
+    "knowledge_base": "保修期为一年。",
+    "expected": false
+  },
+  {
+    "id": "blind-origin-paraphrase-normal",
+    "user_question": "原产国是哪里？",
+    "system_reply": "这批商品在德国生产。",
+    "knowledge_base": "产地：德国。",
+    "expected": false
+  },
+  {
+    "id": "blind-color-paraphrase-normal",
+    "user_question": "什么颜色？",
+    "system_reply": "有黑色可选。",
+    "knowledge_base": "当前配色只有黑色。",
+    "expected": false
+  }
+]
