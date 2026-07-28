@@ -45,6 +45,8 @@ python app.py
 ```
 
 打开 [http://127.0.0.1:5000](http://127.0.0.1:5000)。仪表盘支持运行三种模式、查看指标和混淆矩阵、筛选检测明细，以及导出 JSON/CSV。
+<img width="865" height="490" alt="image" src="https://github.com/user-attachments/assets/b4b2bcba-5496-40f4-96d1-75f2eb18b705" />
+<img width="865" height="506" alt="image" src="https://github.com/user-attachments/assets/a47e64db-04ba-404b-a7f6-1d9e51d1bed1" />
 
 主要接口：
 
